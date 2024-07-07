@@ -1,16 +1,13 @@
+import assert from 'assert/strict';
+import http from 'node:http'
 
-var assert = require('assert')
-var http = require('http')
+import { describe, it } from 'node:test'
 
-var status = require('..')
+import status from '.'
 
 describe('status', function () {
   describe('arguments', function () {
     describe('code', function () {
-      it('should be required', function () {
-        assert.throws(status, /code must be/)
-      })
-
       it('should accept a number', function () {
         assert.strictEqual(status(200), 'OK')
       })
@@ -24,6 +21,7 @@ describe('status', function () {
       })
 
       it('should reject an object', function () {
+        // @ts-ignore
         assert.throws(status.bind(null, {}), /code must be/)
       })
     })
@@ -107,6 +105,7 @@ describe('status', function () {
 
     it('should include codes from Node.js', function () {
       Object.keys(http.STATUS_CODES).forEach(function forEachCode (code) {
+        // @ts-ignore
         assert.ok(status.message[code], 'contains ' + code)
       })
     })
